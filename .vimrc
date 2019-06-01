@@ -3,11 +3,23 @@ if filereadable(expand("~/.vimrc.plug"))
   source ~/.vimrc.plug
 endif
 
+" set comma as leader character
+let mapleader = ","
+" toggles indent guide (from vim-indent-guides plugin)
+map ,ig :IndentGuidesToggle<CR>
+
 " Set colorscheme
 " set t_Co=256
 " set termguicolors
-" set background=dark
 colorscheme hybrid
+set background=dark
+
+" vim-indent-guides config
+let g:indent_guides_enable_on_vim_startup=1
+let g:indent_guides_auto_colors = 0
+autocmd VimEnter,ColorScheme * :hi IndentGuidesOdd ctermbg=235
+autocmd VimEnter,ColorScheme * :hi IndentGuidesEven ctermbg=235
+let g:indent_guides_guide_size=1
 
 " turn off vim backing shit up flooding the home directory
 set nobackup
@@ -15,7 +27,7 @@ set nowritebackup
 set noswapfile
 
 " Set compatibility to Vim only.
-" set no compatible
+" set nocompatible
 
 " Helps force plug-ins to load correctly when it is turned back on below.
 filetype off
@@ -41,9 +53,9 @@ set pastetoggle=<F2>
 " set textwidth=79
 
 set formatoptions=tcqrn1
-set tabstop=2
-set shiftwidth=2
-set softtabstop=2
+set tabstop=3
+set shiftwidth=3
+set softtabstop=3
 set expandtab
 set noshiftround
 
@@ -59,14 +71,17 @@ set ttyfast
 set laststatus=2
 
 " Display options
-set showmode
-set showcmd
+set showmode " shows mode i'm currently in
+set showcmd " shows the command I'm typing
+set ruler " shows the rule
 
 " Highlight matching pairs of brackets. Use the '%' character to jump between
 " them.
 set matchpairs+=<:>
 
 " Display different types of white spaces.
+scriptencoding utf-8
+set encoding=utf-8
 set list
 set listchars=tab:›\ ,trail:•,extends:#,nbsp:.
 
@@ -75,9 +90,6 @@ set number relativenumber
 
 " Set status line dipslay
 " set statusline=%F%m%r%h%w\ [FORMAT=%{&ff}]\ [TYPE=%Y]\ [POS=%l,%v][%p%%]\ [BUFFER=%n]\ %{strftime('%c')}
-
-" Endcoding
-set encoding=utf-8
 
 " Highlight matching search patterns
 set hlsearch
@@ -102,3 +114,10 @@ vnoremap <Space> zf
 " Automatically save and load folds
 autocmd BufWinLeave *.* mkview
 autocmd BufWinEnter *.* silent loadview"
+
+nnoremap <leader>rv :source $MYVIMRC<CR>
+" Insert blank line above and go to insert mode on at the end of current line
+inoremap <C-k> <Esc>O<Esc>jA
+nnoremap <F2> :echo 'Current time is ' . strftime('%c')<CR>
+nnoremap <silent> <F2> :lchdir %:p:h<CR>:pwd<CR>
+
